@@ -2,6 +2,7 @@
 CMakeLists.txt
 cmake-build-debug/
 output_files/
- input/
- exec
+input/
+exec
 CMakeLists.txt
+src/exec

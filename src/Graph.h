@@ -42,6 +42,8 @@ public:
 
     void insertNode(int id, bool update_order = true);
 
+    Node *allocateNode(int id, bool update_order = true);
+
     void insertEdge(int id, int target_id, float weight = 0);
 
     void removeNode(int id);
@@ -59,8 +61,6 @@ public:
 private:
 
     bool containsEdge(int id, int target_id);
-
-    Node *allocateNode(int id, bool update_order = true);
 
 };
 

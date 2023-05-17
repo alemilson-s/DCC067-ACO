@@ -6,7 +6,8 @@ class Edge {
 private:
     int target_id;
     Edge *next_edge;
-    float weight;
+    double weight;
+    float pheromone;
 
 public:
     Edge(int target_id);
@@ -17,11 +18,16 @@ public:
 
     Edge *getNextEdge();
 
-    float getWeight();
+    double getWeight();
+
+    float getPheromone() const;
 
     void setNextEdge(Edge *edge);
 
-    void setWeight(float weight);
+    void setWeight(double weight);
+
+    void setPheromone(float pheromone);
+
 };
 
 

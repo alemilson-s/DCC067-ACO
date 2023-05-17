@@ -16,14 +16,25 @@ private:
     unsigned int out_degree;
     float weight;
     Node *next_node;
+    double x;
+    double y;
 
 public:
 
     Node(int id);
+    Node(int id, double xl, double yl);
 
     Node();
 
     ~Node();
+
+    double getX() const;
+
+    void setX(double x);
+
+    double getY() const;
+
+    void setY(double y);
 
     Edge *getFirstEdge();
 
@@ -51,7 +62,7 @@ public:
 
     bool searchEdge(int target_id);
 
-    void insertEdge(int target_id, float weight);
+    void insertEdge(int target_id, double weight);
 
     void removeAllEdges();
 
