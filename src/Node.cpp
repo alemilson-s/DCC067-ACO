@@ -17,7 +17,20 @@ Node::Node(int id) {
     this->first_edge = nullptr;
     this->last_edge = nullptr;
     this->next_node = nullptr;
+    this->x = 0;
+    this->y = 0;
+}
 
+Node::Node(int id, double xl, double yl) {
+    this->id = id;
+    this->in_degree = 0;
+    this->out_degree = 0;
+    this->weight = 0;
+    this->first_edge = nullptr;
+    this->last_edge = nullptr;
+    this->next_node = nullptr;
+    this->x = xl;
+    this->y = yl;
 }
 
 Node::~Node() {
@@ -33,6 +46,23 @@ Node::~Node() {
     }
 
 }
+
+double Node::getX() const {
+    return this->x;
+}
+
+void Node::setX(double xl) {
+    this->x = xl;
+}
+
+double Node::getY() const {
+    return y;
+}
+
+void Node::setY(double yl) {
+    this->y = yl;
+}
+
 
 Edge *Node::getFirstEdge() {
 
@@ -107,7 +137,7 @@ void Node::setWeight(float weight) {
 
 }
 
-void Node::insertEdge(int target_id, float weight) {
+void Node::insertEdge(int target_id, double weight) {
     if (this->first_edge != nullptr) {
         Edge *edge = new Edge(target_id);
         edge->setWeight(weight);
@@ -120,7 +150,6 @@ void Node::insertEdge(int target_id, float weight) {
         this->last_edge = this->first_edge;
 
     }
-
 }
 
 void Node::removeAllEdges() {

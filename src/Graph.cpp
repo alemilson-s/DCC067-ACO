@@ -17,8 +17,6 @@ using namespace std::chrono;
 
 using namespace std;
 
-using namespace std;
-
 /**************************************************************************************************
  * Defining the Graph's methods
 **************************************************************************************************/
@@ -280,7 +278,9 @@ void Graph::generateDot(string name_graph) {
         if (this->directed) {
             output_file << "strict digraph " << name_graph << "{\n";
             for (Node *p = this->getFirstNode(); p != nullptr; p = p->getNextNode()) {
-                output_file << p->getId() << "\n";
+                output_file << p->getId() << "\n";// << " [pos=\"" << p->getX() << "," << p->getY() << "\"];\n";
+            }
+            for (Node *p = this->getFirstNode(); p != nullptr; p = p->getNextNode()) {
                 for (Edge *t = p->getFirstEdge(); t != nullptr; t = t->getNextEdge()) {
                     if (this->weighted_edge) {
                         output_file << p->getId() << "->" << t->getTargetId() << "[weight=" << t->getWeight()
@@ -295,7 +295,9 @@ void Graph::generateDot(string name_graph) {
         } else {
             output_file << "strict graph " << name_graph << "{\n";
             for (Node *p = this->getFirstNode(); p != nullptr; p = p->getNextNode()) {
-                output_file << p->getId() << "\n";
+                output_file << p->getId() << "\n";// << " [pos=\"" << p->getX() << "," << p->getY() << "\"];\n";
+            }
+            for (Node *p = this->getFirstNode(); p != nullptr; p = p->getNextNode()) {
                 for (Edge *t = p->getFirstEdge(); t != nullptr; t = t->getNextEdge()) {
                     if (this->weighted_edge) {
                         output_file << p->getId() << "--" << t->getTargetId() << "[weight=" << t->getWeight()
@@ -308,19 +310,19 @@ void Graph::generateDot(string name_graph) {
             output_file << "}";
         }
         cout << "Arquivo " << path << " gerado!" << endl;
-//        name_graph.append("_graph.png");
-//
-//        string command = "dot -Tpng ";
-//        command.append(path.append(" -o ../output_files/").append(name_graph));
-//
-//        char *c = const_cast<char *>(command.c_str());
-//
-//        if (!(c = reinterpret_cast<char *>((FILE *) popen(c, "r")))) {
-//
-//            cout << "falha";
-//
-//            exit(1);
-//        }
+        name_graph.append("_graph.png");
+
+        string command = "dot -Tpng ";
+        command.append(path.append(" -o ../output_files/").append(name_graph));
+
+        char *c = const_cast<char *>(command.c_str());
+
+        if (!(c = reinterpret_cast<char *>((FILE *) popen(c, "r")))) {
+
+            cout << "falha";
+
+            exit(1);
+        }
         output_file.close();
 
     } else {
@@ -335,13 +337,15 @@ void Graph::print() {
         cout << "\tEdges:" << endl;
         Edge *edge = node->getFirstEdge();
         while (edge != nullptr) {
-            cout << "\t\t(" << node->getId() << ", " << edge->getTargetId() << ")" << endl;
+            cout << "\t\t(" << node->getId() << ", " << edge->getTargetId() << ") - " << edge->getWeight() << endl;
             edge = edge->getNextEdge();
         }
         node = node->getNextNode();
     }
     cout << endl;
 }
+
+
 
 
 

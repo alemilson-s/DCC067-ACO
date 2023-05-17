@@ -7,8 +7,8 @@ Edge::Edge(int target_id) {
 
     this->target_id = target_id;
     this->next_edge = nullptr;
-    this->weight = 0;
-
+    this->weight = -1;
+    this->pheromone = -1;
 }
 
 Edge::~Edge() {
@@ -32,7 +32,7 @@ Edge *Edge::getNextEdge() {
 
 }
 
-float Edge::getWeight() {
+double Edge::getWeight() {
 
     return this->weight;
 
@@ -44,8 +44,16 @@ void Edge::setNextEdge(Edge *edge) {
 
 }
 
-void Edge::setWeight(float weight) {
+void Edge::setWeight(double weight) {
 
     this->weight = weight;
 
+}
+
+float Edge::getPheromone() const {
+    return pheromone;
+}
+
+void Edge::setPheromone(float pheromone) {
+    Edge::pheromone = pheromone;
 }
