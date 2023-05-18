@@ -31,7 +31,6 @@ void initializeParameters(vector<Ant> &ants, Graph &g, float pheromone) {
         }
         node = node->getNextNode();
     }
-    initializeAnts(ants);
 }
 
 Edge *selectNextCity(Ant &ant, Graph &g, float alpha, float beta) {
@@ -75,7 +74,7 @@ Edge *selectNextCity(Ant &ant, Graph &g, float alpha, float beta) {
             return edges[i];
         }
     }
-    return 0;
+    return nullptr;
 
 }
 
@@ -91,18 +90,28 @@ void aco(Graph &g, int cycles, float evaporation, float alpha, float beta) {
     while (t < cycles) {
         initializeAnts(ants);
         int j = 0;
-        while (j < g.getOrder() - 1) {
+        while (j < n_ants) {
             int k = 0;
-            while (k < n_ants) {
-                Edge *next_city = selectNextCity(ants[k], g, alpha, beta);
-                ants[k].path.push_back(next_city->getTargetId());
-                ants[k].visited[next_city->getTargetId()] = true;
-                ants[k].solution_value += next_city->getWeight();
+            while (k < n_ants - 1) {
+                Edge *next_city = selectNextCity(ants[j], g, alpha, beta);
+                ants[j].path.push_back(next_city->getTargetId());
+                ants[j].visited[next_city->getTargetId()] = true;
+                ants[j].solution_value += next_city->getWeight();
                 k++;
             }
+            ants[j].path.push_back(ants[j].path[0]);
+            Edge *e = g.getNode(ants[j].path.back())->getEdge(ants[j].path[0]);
+            ants[j].solution_value += e->getWeight();
+            j++;
         }
-
-
+        j = 0;
+        while( j < n_ants){
+            Node *node = g.getNode(ants[j].path[0]);
+            for(int k = 1; k < ants[j].path.size(); k++){
+                Edge *edge = node->getEdge(ants[j].path[k]);
+            }
+            j++;
+        }
         t++;
     }
 }
