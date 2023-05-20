@@ -15,7 +15,7 @@ void initializeAnts(vector<Ant> &ants) {
     for (int i = 0; i < ants.size(); i++) {
         ants[i].visited.resize(ants.size(), false);
         ants[i].path.clear();
-        ants[i].path.push_back(i);
+        ants[i].path.push_back(rand() % ants.size());
         ants[i].visited[i] = true;
         ants[i].solution_value = 0;
     }
@@ -31,6 +31,7 @@ void initializeParameters(vector<Ant> &ants, Graph &g, float pheromone) {
         }
         node = node->getNextNode();
     }
+    initializeAnts(ants);
 }
 
 Edge *selectNextCity(Ant &ant, Graph &g, float alpha, float beta) {
@@ -81,7 +82,7 @@ Edge *selectNextCity(Ant &ant, Graph &g, float alpha, float beta) {
 
 void aco(Graph &g, int cycles, float evaporation, float alpha, float beta) {
     Ant best;
-    int n_ants = g.getOrder();
+    int n_ants = g.getOrder() * 2 / 3;
     best.solution_value = numeric_limits<double>::max();
     vector<Ant> ants(n_ants, Ant());
     initializeParameters(ants, g, 10);
@@ -102,15 +103,22 @@ void aco(Graph &g, int cycles, float evaporation, float alpha, float beta) {
             ants[j].path.push_back(ants[j].path[0]);
             Edge *e = g.getNode(ants[j].path.back())->getEdge(ants[j].path[0]);
             ants[j].solution_value += e->getWeight();
+            for (int i = 0; i < ants[j].path.size() - 1; i++) {
+                Node *node = g.getNode(ants[j].path[i]);
+                Edge *edge = node->getEdge(ants[j].path[i + 1]);
+                double pheromone = (1 - evaporation) * edge->getPheromone() +
+                                   evaporation * (1 / (g.getOrder() * ants[j].solution_value));
+                edge->setPheromone(pheromone);
+            }
+            if (ants[j].solution_value < best.solution_value)
+                best = ants[j];
             j++;
         }
-        j = 0;
-        while( j < n_ants){
-            Node *node = g.getNode(ants[j].path[0]);
-            for(int k = 1; k < ants[j].path.size(); k++){
-                Edge *edge = node->getEdge(ants[j].path[k]);
-            }
-            j++;
+        for (int i = 0; i < best.path.size() - 1; i++) {
+            Node *node = g.getNode(best.path[i]);
+            Edge *edge = node->getEdge(best.path[i + 1]);
+            double pheromone = (1 - evaporation) * edge->getPheromone() + evaporation * 1 / best.solution_value;
+            edge->setPheromone(pheromone);
         }
         t++;
     }

@@ -7,7 +7,7 @@ private:
     int target_id;
     Edge *next_edge;
     double weight;
-    float pheromone;
+    double pheromone;
 
 public:
     Edge(int target_id);
@@ -20,13 +20,13 @@ public:
 
     double getWeight();
 
-    float getPheromone() const;
+    double getPheromone() const;
 
     void setNextEdge(Edge *edge);
 
     void setWeight(double weight);
 
-    void setPheromone(float pheromone);
+    void setPheromone(double pheromone);
 
 };
 

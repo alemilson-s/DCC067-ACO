@@ -50,10 +50,10 @@ void Edge::setWeight(double weight) {
 
 }
 
-float Edge::getPheromone() const {
+double Edge::getPheromone() const {
     return pheromone;
 }
 
-void Edge::setPheromone(float pheromone) {
+void Edge::setPheromone(double pheromone) {
     Edge::pheromone = pheromone;
 }
