@@ -10,6 +10,7 @@
 using namespace std;
 
 void aco(Graph &g, int cycles, float evaporation, float alpha, float beta, float q0) {
+    cout << "Construindo solução ACO..." << endl;
     Ant best;
     int n_ants = g.getOrder() * 1 / 5;
     best.solution_value = numeric_limits<double>::max();
@@ -52,7 +53,7 @@ void aco(Graph &g, int cycles, float evaporation, float alpha, float beta, float
             if (ants[j].solution_value < best.solution_value)
                 best = ants[j];
 //            cout << "Solução: " << best.solution_value << endl;
-            cout << "Solução: " << ants[j].solution_value << endl;
+//            cout << "Solução: " << ants[j].solution_value << endl;
             j++;
         }
         for (int i = 0; i < best.path.size() - 1; i++) {
@@ -61,11 +62,12 @@ void aco(Graph &g, int cycles, float evaporation, float alpha, float beta, float
             double pheromone = (1 - evaporation) * edge->getPheromone() + evaporation * (1.0 / best.solution_value);
             edge->setPheromone(pheromone);
         }
-        cout << "próxima geração" << endl;
+//        cout << "próxima geração" << endl;
         t++;
     }
+    cout << "Solução:" << endl;
     for (int i = 0; i < best.path.size() - 1; i++)
-        cout << '(' << best.path[i] << ", " << best.path[i + 1] << ')' << endl;
+        cout << '\t' << '(' << best.path[i] << ", " << best.path[i + 1] << ')' << endl;
     cout << "Valor da solução: " << best.solution_value << endl;
 }
 
@@ -73,7 +75,6 @@ void initializeAnts(Graph &g, vector<Ant> &ants, int n) {
     random_device rd;
     mt19937 gen(rd());
     uniform_int_distribution<int> dis(0, n - 1);
-    double q_random = dis(gen);
     for (int i = 0; i < ants.size(); i++) {
         ants[i].visited.clear();
         ants[i].visited.resize(n, false);
@@ -114,7 +115,7 @@ Edge *selectNextCity(Ant &ant, Graph &g, float alpha, float beta, float q0) {
         }
         edge = edge->getNextEdge();
     }
-
+/*
     vector<double> candidates(n_edges, 0.0);
     double top_candidate = 0;
     int candidate = 0;
@@ -135,7 +136,7 @@ Edge *selectNextCity(Ant &ant, Graph &g, float alpha, float beta, float q0) {
     if (q_random <= q0) {
         return edges[candidate];
     }
-
+*/
     vector<double> probabilities(n_edges, 0.0);
 
     for (int k = 0; k < n_edges; k++) {
@@ -145,7 +146,8 @@ Edge *selectNextCity(Ant &ant, Graph &g, float alpha, float beta, float q0) {
     double p[probabilities.size()];
     for (int i = 0; i < probabilities.size(); i++)
         p[i] = probabilities[i] * 10000;
-
+    random_device rd;
+    mt19937 gen(rd());
     uniform_real_distribution<double> distribution(0.0, 10000.0);
     double r = distribution(gen);
     double t = 0;
@@ -156,5 +158,4 @@ Edge *selectNextCity(Ant &ant, Graph &g, float alpha, float beta, float q0) {
         }
     }
     return nullptr;
-
 }

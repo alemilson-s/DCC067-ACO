@@ -112,7 +112,7 @@ int main(int argc, char **argv) {
     if (input_file.is_open())
         input_file.close();
     g->generateDot("b");
-    aco(*g, 70000, 0.5, 1, 2, 0.0);
+    aco(*g, 70000, 0.5, 1, 2, 0.9);
     return 0;
 
 }
