@@ -6,8 +6,10 @@
 #include <sstream>
 #include <vector>
 #include <cmath>
+#include "aco.h"
 
 using namespace std;
+
 
 double calculaDistancia(Node &n, Node &m) {
     return sqrt((m.getX() - n.getX()) * (m.getX() - n.getX()) + (m.getY() - n.getY()) * (m.getY() - n.getY()));
@@ -83,7 +85,7 @@ Graph *leituraATSP(ifstream &input_file) {
     }
     for (int i = 0; i < order; i++) {
         for (int j = 0; j < order; j++) {
-            g->insertEdge(i, j, vet[i * order + j]);
+            g->insertEdge(i, j, vet[i * order + j], true);
         }
     }
     return g;
@@ -106,10 +108,11 @@ int main(int argc, char **argv) {
     } else {
         g = leituraTSP(input_file);
     }
-    g->print();
+    //g->print();
     if (input_file.is_open())
         input_file.close();
-    g->generateDot("a");
+    g->generateDot("b");
+    aco(*g, 70000, 0.5, 1, 2, 0.0);
     return 0;
 
 }

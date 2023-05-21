@@ -44,7 +44,7 @@ public:
 
     Node *allocateNode(int id, bool update_order = true);
 
-    void insertEdge(int id, int target_id, float weight = 0);
+    void insertEdge(int id, int target_id, float weight = 0, bool update_order = false);
 
     void removeNode(int id);
 

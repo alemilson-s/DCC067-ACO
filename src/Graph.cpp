@@ -141,18 +141,18 @@ Node *Graph::allocateNode(int id, bool update_order) {
     return nullptr;
 }
 
-void Graph::insertEdge(int id, int target_id, float weight) {
+void Graph::insertEdge(int id, int target_id, float weight, bool update_order) {
     if (id == target_id)
         return;
     Node *node;
     Node *target_node;
     if (!this->containsNode(id)) {
-        node = this->allocateNode(id, false);
+        node = this->allocateNode(id, update_order);
     } else {
         node = this->getNode(id);
     }
     if (!this->containsNode(target_id)) {
-        target_node = this->allocateNode(target_id, false);
+        target_node = this->allocateNode(target_id, update_order);
     } else {
         target_node = this->getNode(target_id);
     }
