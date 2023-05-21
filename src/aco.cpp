@@ -11,7 +11,7 @@ using namespace std;
 
 void aco(Graph &g, int cycles, float evaporation, float alpha, float beta, float q0) {
     Ant best;
-    int n_ants = g.getOrder() * 2 / 5;
+    int n_ants = g.getOrder() * 1 / 5;
     best.solution_value = numeric_limits<double>::max();
     vector<Ant> ants(n_ants, Ant());
     initializeParameters(ants, g, 10);
@@ -51,8 +51,8 @@ void aco(Graph &g, int cycles, float evaporation, float alpha, float beta, float
             }
             if (ants[j].solution_value < best.solution_value)
                 best = ants[j];
-            cout << "Solução: " << best.solution_value << endl;
-//            cout << "Solução: " << ants[j].solution_value << endl;
+//            cout << "Solução: " << best.solution_value << endl;
+            cout << "Solução: " << ants[j].solution_value << endl;
             j++;
         }
         for (int i = 0; i < best.path.size() - 1; i++) {
