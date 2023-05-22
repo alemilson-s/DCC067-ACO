@@ -108,15 +108,13 @@ int main(int argc, char **argv) {
     } else {
         g = leituraTSP(input_file);
     }
-    //g->print();
     if (input_file.is_open())
         input_file.close();
-    g->generateDot("b");
     int cycles = 20000;
     if (g->getOrder() >= 50)
         cycles = 70000;
 
-    aco(*g, cycles, 0.5, 1, 2, 0.9);
+    aco(*g, cycles, 0.5, 1, 2);
     return 0;
 
 }

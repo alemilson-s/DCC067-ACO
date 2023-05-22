@@ -17,8 +17,8 @@ void initializeAnts(Graph &g, vector <Ant> &ants, int n);
 
 void initializeParameters(vector <Ant> &ants, Graph &g, float pheromone);
 
-Edge *selectNextCity(Ant &ant, Graph &g, float alpha, float beta, float q0);
+Edge *selectNextCity(Ant &ant, Graph &g, float alpha, float beta);
 
-void aco(Graph &g, int cycles, float evaporation, float alpha, float beta, float q0 = 0.5);
+void aco(Graph &g, int cycles, float evaporation, float alpha, float beta);
 
 #endif //DCC067_ACO_ACO_H

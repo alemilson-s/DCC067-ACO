@@ -9,7 +9,7 @@
 
 using namespace std;
 
-void aco(Graph &g, int cycles, float evaporation, float alpha, float beta, float q0) {
+void aco(Graph &g, int cycles, float evaporation, float alpha, float beta) {
     cout << "Construindo solução ACO..." << endl;
     Ant best;
     int n_ants = g.getOrder() * 1 / 5;
@@ -24,7 +24,7 @@ void aco(Graph &g, int cycles, float evaporation, float alpha, float beta, float
         while (j < n_ants) {
             int k = 0;
             while (k < g.getOrder() - 1) {
-                Edge *next_city = selectNextCity(ants[j], g, alpha, beta, q0);
+                Edge *next_city = selectNextCity(ants[j], g, alpha, beta);
                 if (next_city->getTargetId() == ants[j].path[0]) {
                     cout << endl;
                 }
@@ -100,7 +100,7 @@ void initializeParameters(vector<Ant> &ants, Graph &g, float pheromone) {
     initializeAnts(g, ants, g.getOrder());
 }
 
-Edge *selectNextCity(Ant &ant, Graph &g, float alpha, float beta, float q0) {
+Edge *selectNextCity(Ant &ant, Graph &g, float alpha, float beta) {
     Edge *edges[g.getOrder()];
     int n_edges = 0;
     int current_city = ant.path.back();
@@ -115,28 +115,7 @@ Edge *selectNextCity(Ant &ant, Graph &g, float alpha, float beta, float q0) {
         }
         edge = edge->getNextEdge();
     }
-/*
-    vector<double> candidates(n_edges, 0.0);
-    double top_candidate = 0;
-    int candidate = 0;
-    for (int i = 0; i < candidates.size(); i++) {
-        candidates[i] = pow(edges[i]->getPheromone(), alpha) * pow(edges[i]->getWeight(), beta);
-        if (candidates[i] > top_candidate) {
-            top_candidate = candidates[i];
-            candidate = i;
-        }
-    }
 
-    random_device rd;
-    mt19937 gen(rd());
-    double min = 0.0;
-    double max = 1.0;
-    uniform_real_distribution<double> dis(min, max);
-    double q_random = dis(gen);
-    if (q_random <= q0) {
-        return edges[candidate];
-    }
-*/
     vector<double> probabilities(n_edges, 0.0);
 
     for (int k = 0; k < n_edges; k++) {
