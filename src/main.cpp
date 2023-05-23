@@ -114,7 +114,10 @@ int main(int argc, char **argv) {
     if (g->getOrder() >= 50)
         cycles = 70000;
 
-    aco(*g, cycles, 0.5, 1, 2);
+//    for (int i = 0; i < 500; i++)
+    aco(*g, cycles, 0.7, 1, 9);
+
+    delete g;
     return 0;
 
 }

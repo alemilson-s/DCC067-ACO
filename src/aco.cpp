@@ -12,7 +12,8 @@ using namespace std;
 void aco(Graph &g, int cycles, float evaporation, float alpha, float beta) {
     cout << "Construindo solução ACO..." << endl;
     Ant best;
-    int n_ants = g.getOrder() * 1 / 5;
+    int n_ants = g.getOrder() * 1 / 6;
+//    int n_ants = 15;
     best.solution_value = numeric_limits<double>::max();
     vector<Ant> ants(n_ants, Ant());
     initializeParameters(ants, g, 10);
@@ -38,6 +39,14 @@ void aco(Graph &g, int cycles, float evaporation, float alpha, float beta) {
             Node *n = g.getNode(ants[j].path[ants[j].path.size() - 2]);
             Edge *e = n->getEdge(ants[j].path.back());
             ants[j].solution_value += e->getWeight();
+
+            if (ants[j].solution_value < best.solution_value)
+                best = ants[j];
+            cout << "Solução: " << best.solution_value << endl;
+//            cout << "Solução: " << ants[j].solution_value << endl;
+            j++;
+        }
+        for(j = 0; j < n_ants; j++){
             for (int i = 0; i < ants[j].path.size() - 1; i++) {
                 Node *node = g.getNode(ants[j].path[i]);
                 Edge *edge = node->getEdge(ants[j].path[i + 1]);
@@ -50,11 +59,6 @@ void aco(Graph &g, int cycles, float evaporation, float alpha, float beta) {
                     edge->setPheromone(pheromone);
                 }
             }
-            if (ants[j].solution_value < best.solution_value)
-                best = ants[j];
-//            cout << "Solução: " << best.solution_value << endl;
-//            cout << "Solução: " << ants[j].solution_value << endl;
-            j++;
         }
         for (int i = 0; i < best.path.size() - 1; i++) {
             Node *node = g.getNode(best.path[i]);
@@ -66,8 +70,8 @@ void aco(Graph &g, int cycles, float evaporation, float alpha, float beta) {
         t++;
     }
     cout << "Solução:" << endl;
-    for (int i = 0; i < best.path.size() - 1; i++)
-        cout << '\t' << '(' << best.path[i] << ", " << best.path[i + 1] << ')' << endl;
+//    for (int i = 0; i < best.path.size() - 1; i++)
+//        cout << '\t' << '(' << best.path[i] << ", " << best.path[i + 1] << ')' << endl;
     cout << "Valor da solução: " << best.solution_value << endl;
 }
 
